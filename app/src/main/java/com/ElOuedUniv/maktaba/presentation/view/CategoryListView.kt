@@ -31,10 +31,7 @@ fun CategoryListView(
                 title = { Text("Categories") },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back"
-                        )
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -50,19 +47,12 @@ fun CategoryListView(
                 .padding(paddingValues)
         ) {
             if (isLoading) {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center)
-                )
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             } else {
                 if (categories.isEmpty()) {
-                    EmptyCategoriesMessage(
-                        modifier = Modifier.align(Alignment.Center)
-                    )
+                    EmptyCategoriesMessage(modifier = Modifier.align(Alignment.Center))
                 } else {
-                    CategoryList(
-                        categories = categories,
-                        modifier = Modifier.fillMaxSize()
-                    )
+                    CategoryList(categories, modifier = Modifier.fillMaxSize())
                 }
             }
         }
@@ -79,8 +69,17 @@ fun CategoryList(
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
+
+        item {
+            Text(
+                text = "إجمالي عدد الفئات المعروضة: ${categories.size}",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(bottom = 20.dp) // المسافة بين النص وأول فئة
+            )
+        }
         items(categories) { category ->
-            CategoryItem(category = category)
+            CategoryItem(category)
         }
     }
 }
@@ -91,15 +90,16 @@ fun CategoryItem(category: Category) {
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        ) {
+        Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
             Text(
-                text = "Category Item",
+                text = category.name,
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = category.description,
+                style = MaterialTheme.typography.bodyMedium
             )
         }
     }
@@ -111,10 +111,7 @@ fun EmptyCategoriesMessage(modifier: Modifier = Modifier) {
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = "📂",
-            style = MaterialTheme.typography.displayLarge
-        )
+        Text("📂", style = MaterialTheme.typography.displayLarge)
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = "No categories available",
