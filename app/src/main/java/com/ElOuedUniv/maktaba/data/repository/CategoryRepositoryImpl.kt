@@ -1,7 +1,6 @@
 package com.ElOuedUniv.maktaba.data.repository
 
 import com.ElOuedUniv.maktaba.data.model.Category
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.emitAll
@@ -12,35 +11,34 @@ class CategoryRepositoryImpl @Inject constructor() : CategoryRepository {
 
     private val _categoriesList = listOf(
         Category(
-            id = "1",
+            id = 1,
             name = "Programming",
             description = "Books about software development and coding",
-            iconRes = android.R.drawable.ic_menu_preferences
+            iconRes = 0
         ),
         Category(
-            id = "2",
+            id = 2,
             name = "Algorithms",
             description = "Books about algorithms and data structures",
-            iconRes = android.R.drawable.ic_menu_compass
+            iconRes = 0
         ),
         Category(
-            id = "3",
+            id = 3,
             name = "Databases",
             description = "Books about database design and management",
-            iconRes = android.R.drawable.ic_menu_save
+            iconRes = 0
         )
     )
 
     private val categoriesFlow = MutableSharedFlow<List<Category>>(replay = 1).apply {
         tryEmit(_categoriesList)
     }
-    
+
     override fun getAllCategories(): Flow<List<Category>> = flow {
-        delay(2000) // Simulate delay
         emitAll(categoriesFlow)
     }
 
-    override fun getCategoryById(id: String): Category? {
+    override fun getCategoryById(id: Int): Category? {
         return _categoriesList.find { it.id == id }
     }
 }

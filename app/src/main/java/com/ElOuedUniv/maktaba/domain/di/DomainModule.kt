@@ -19,31 +19,17 @@ object DomainModule {
     @Singleton
     fun provideGetCategoriesUseCase(
         categoryRepository: CategoryRepository
-    ): GetCategoriesUseCase {
-        return GetCategoriesUseCase(categoryRepository)
-    }
+    ): GetCategoriesUseCase = GetCategoriesUseCase(categoryRepository)
 
     @Provides
     @Singleton
     fun provideGetBooksUseCase(
         bookRepository: BookRepository
-    ): GetBooksUseCase {
-        return GetBooksUseCase(bookRepository)
-    }
+    ): GetBooksUseCase = GetBooksUseCase(bookRepository)
 
     @Provides
     @Singleton
     fun provideAddBookUseCase(
         bookRepository: BookRepository
-    ): AddBookUseCase {
-        return AddBookUseCase(bookRepository)
-    }
-
-    @Provides
-    @Singleton
-    fun provideGetBookByIsbnUseCase(
-        bookRepository: BookRepository
-    ): com.ElOuedUniv.maktaba.domain.usecase.GetBookByIsbnUseCase {
-        return com.ElOuedUniv.maktaba.domain.usecase.GetBookByIsbnUseCase(bookRepository)
-    }
+    ): AddBookUseCase = AddBookUseCase(bookRepository)
 }

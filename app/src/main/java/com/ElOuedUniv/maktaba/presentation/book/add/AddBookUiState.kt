@@ -1,5 +1,7 @@
 package com.ElOuedUniv.maktaba.presentation.book.add
 
+import android.net.Uri
+
 data class AddBookUiState(
     val title: String = "",
     val isbn: String = "",
@@ -10,5 +12,6 @@ data class AddBookUiState(
     val titleError: String? = null,
     val isbnError: String? = null,
     val nbPagesError: String? = null,
-    val errorMessage: String? = null
+    val errorMessage: String? = null,
+    val imageUri: Uri? = null
 )

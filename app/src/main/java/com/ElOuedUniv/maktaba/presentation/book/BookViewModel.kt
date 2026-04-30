@@ -40,9 +40,6 @@ class BookViewModel @Inject constructor(
         }
     }
 
-    /**
-     * Exercise 3 - Handle UI Actions
-     */
     fun onAction(action: BookUiAction) {
         when (action) {
             BookUiAction.RefreshBooks -> refreshBooks()
@@ -52,13 +49,18 @@ class BookViewModel @Inject constructor(
             BookUiAction.OnDismissAddBook -> {
                 _uiState.update { it.copy(isAddingBook = false) }
             }
+            BookUiAction.OnToggleViewMode -> {
+                _uiState.update { it.copy(isGridView = !it.isGridView) }
+            }
             is BookUiAction.OnAddBookConfirm -> {
                 val newBook = Book(
                     isbn = action.isbn,
                     title = action.title,
                     nbPages = action.nbPages
                 )
-                addBookUseCase(newBook)
+                viewModelScope.launch {
+                    addBookUseCase(newBook)
+                }
                 _uiState.update { it.copy(isAddingBook = false) }
             }
         }

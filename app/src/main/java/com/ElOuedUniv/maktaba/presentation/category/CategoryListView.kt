@@ -12,13 +12,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ElOuedUniv.maktaba.data.model.Category
-import com.ElOuedUniv.maktaba.presentation.category.CategoryViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,14 +30,14 @@ fun CategoryListView(
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { 
+                title = {
                     Text(
-                        "CATEGORIES", 
+                        "CATEGORIES",
                         style = MaterialTheme.typography.titleLarge.copy(
                             fontWeight = FontWeight.ExtraBold,
                             letterSpacing = 2.sp
                         )
-                    ) 
+                    )
                 },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
@@ -113,36 +111,28 @@ fun CategoryItem(category: Category) {
                 .padding(20.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Category Icon
             Surface(
                 modifier = Modifier.size(80.dp),
                 shape = MaterialTheme.shapes.large,
                 color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
             ) {
-                Icon(
-                    painter = painterResource(id = category.iconRes),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxSize(),
-                    tint = MaterialTheme.colorScheme.primary
-                )
+                Box(contentAlignment = Alignment.Center) {
+                    Text(
+                        text = getCategoryEmoji(category.name),
+                        style = MaterialTheme.typography.headlineMedium
+                    )
+                }
             }
-            
+
             Spacer(modifier = Modifier.width(20.dp))
-            
-            // Text Details
-            Column(
-                modifier = Modifier.fillMaxWidth()
-            ) {
+
+            Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
                     text = category.name,
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.ExtraBold
                 )
-                
                 Spacer(modifier = Modifier.height(4.dp))
-                
                 Text(
                     text = category.description,
                     style = MaterialTheme.typography.bodyMedium,
@@ -152,6 +142,18 @@ fun CategoryItem(category: Category) {
                 )
             }
         }
+    }
+}
+
+fun getCategoryEmoji(name: String): String {
+    return when {
+        name.contains("Program", ignoreCase = true) -> "💻"
+        name.contains("Algorithm", ignoreCase = true) -> "🔢"
+        name.contains("Database", ignoreCase = true) -> "🗄️"
+        name.contains("Mobile", ignoreCase = true) -> "📱"
+        name.contains("AI", ignoreCase = true) ||
+                name.contains("Intelligence", ignoreCase = true) -> "🤖"
+        else -> "📚"
     }
 }
 

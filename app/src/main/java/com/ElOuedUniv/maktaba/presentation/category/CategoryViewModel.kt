@@ -1,5 +1,6 @@
 package com.ElOuedUniv.maktaba.presentation.category
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ElOuedUniv.maktaba.data.model.Category
@@ -8,13 +9,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class CategoryViewModel @Inject constructor(private val getCategoriesUseCase: GetCategoriesUseCase) : ViewModel() {
+class CategoryViewModel @Inject constructor(
+    private val getCategoriesUseCase: GetCategoriesUseCase
+) : ViewModel() {
 
     private val _categories = MutableStateFlow<List<Category>>(emptyList())
     val categories: StateFlow<List<Category>> = _categories.asStateFlow()
@@ -30,10 +32,12 @@ class CategoryViewModel @Inject constructor(private val getCategoriesUseCase: Ge
         viewModelScope.launch {
             _isLoading.value = true
             getCategoriesUseCase()
-                .catch {
+                .catch { e ->
+                    Log.e("CategoryViewModel", "Error: ${e.message}", e)
                     _isLoading.value = false
                 }
                 .collect { categoryList ->
+                    Log.d("CategoryViewModel", "Categories loaded: ${categoryList.size}")
                     _categories.value = categoryList
                     _isLoading.value = false
                 }

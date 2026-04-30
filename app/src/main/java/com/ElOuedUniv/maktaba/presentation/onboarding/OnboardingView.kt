@@ -22,9 +22,8 @@ fun OnboardingView(
         Spacer(modifier = Modifier.height(16.dp))
         Text("Your personal digital library.")
         Spacer(modifier = Modifier.height(32.dp))
-        Button(onClick = { 
-            viewModel.onCompleteOnboarding()
-            onNavigateToLibrary() 
+        Button(onClick = {
+            onNavigateToLibrary()
         }) {
             Text("Get Started")
         }
